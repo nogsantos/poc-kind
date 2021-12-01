@@ -1,0 +1,71 @@
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: api
+  labels:
+    app: nogsantos
+spec:
+  containers:
+    - name: nogsantos-api
+      image: hashicorp/http-echo:0.2.3
+      args:
+        - "-text=NOGSANTOS API"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: nogsantos-service
+spec:
+  selector:
+    app: nogsantos
+  ports:
+    # Default port used by the image
+    - port: 5678
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: app-service
+  labels:
+    app: service
+spec:
+  containers:
+    - name: app-service
+      image: hashicorp/http-echo:0.2.3
+      args:
+        - "-text=APP AS A SERVICE"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: service-service
+spec:
+  selector:
+    app: service
+  ports:
+    # Default port used by the image
+    - port: 5678
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - pathType: Prefix
+            path: "/nogsantos-api"
+            backend:
+              service:
+                name: nogsantos-service
+                port:
+                  number: 5678
+          - pathType: Prefix
+            path: "/service"
+            backend:
+              service:
+                name: service-service
+                port:
+                  number: 5678
