@@ -108,7 +108,7 @@ curl localhost/service
 
 In the browser, `http://localhost/nogsantos-api` or ``http://localhost/service``
 
-> TIP: You can use (Lens)[https://docs.k8slens.dev/main/getting-started/] as Kubernetes IDE
+> TIP: You can use [Lens](https://docs.k8slens.dev/main/getting-started/) as Kubernetes IDE
 
 ### Removing the klusters
 
